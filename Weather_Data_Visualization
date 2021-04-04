@@ -1,0 +1,21 @@
+import matplotlib.pyplot as plt
+import urllib.request
+import csv
+import pandas as pd
+url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-PY0101EN-SkillsNetwork/labs/Module%204/ex4.csv"
+statData = "ex4.csv"
+urllib.request.urlretrieve(url, statData)
+with open(statData, "r") as file1:
+    first_line = file1.readline()
+    FileContent = csv.reader(file1)
+    precipitation = []
+    for line in FileContent:
+        precipitation.append(float(line[1]))
+    n = 5
+    mov_avg = pd.Series(precipitation).rolling(window=n).mean().iloc[n - 1:].values
+    print(mov_avg)
+
+plt.plot(mov_avg)
+plt.show()
+plt.xlabel('Day')
+plt.ylabel('Precipitation')
